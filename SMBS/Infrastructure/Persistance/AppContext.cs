@@ -8,5 +8,11 @@ public class AppContext : IdentityDbContext<ApplicationUser>
     {
     }
 
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+    }
+
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
     public DbSet<UserStatus> UserStatuses { get; set; }
 }

@@ -1,7 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 public class TokenService : ITokenService
@@ -13,7 +12,7 @@ public class TokenService : ITokenService
     {
         _configuration = configuration;
     }
-    public string CreateToken(ApplicationUser user, IdentityRole role)
+    public string CreateToken(ApplicationUser user, string role)
     {
 
         var handlerToken = new JwtSecurityTokenHandler();
@@ -25,7 +24,7 @@ public class TokenService : ITokenService
                 new Claim("Id", user.Id),
                 new Claim(ClaimTypes.Name, user.Name),
                 new Claim(ClaimTypes.Email, user.Email ?? ""),
-                new Claim(ClaimTypes.Role, role.Name ?? "")
+                new Claim(ClaimTypes.Role, role ?? "")
             }),
             Expires = DateTime.UtcNow.AddHours(1),
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]!)), SecurityAlgorithms.HmacSha256Signature)

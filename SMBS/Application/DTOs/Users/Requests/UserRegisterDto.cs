@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-public class CreateUserDto
+namespace Application.DTOs.Users.Requests;
+
+public class UserRegisterDto
 {
     [Required(ErrorMessage = "The field email is required")]
     public string? Email { get; set; }
