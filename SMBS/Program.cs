@@ -9,7 +9,8 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
 builder.Services.AddDbContext<AppContext>(options => options.UseNpgsql(builder.Configuration.GetConnectionString("PostgreSQL")));
-
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
 
 //JWT
 var jwtSettings = builder.Configuration.GetSection("Jwt");
@@ -64,6 +65,7 @@ if (app.Environment.IsProduction() || true)
     db.Database.Migrate();
     DataSeeder.Seed(db);
 }
+
 
 app.UseAuthentication();
 app.UseAuthorization();
